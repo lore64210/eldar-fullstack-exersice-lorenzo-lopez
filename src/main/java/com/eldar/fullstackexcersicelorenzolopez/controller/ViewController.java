@@ -1,4 +1,4 @@
-package com.eldar.fullstackexerciselorenzolopez.controller;
+package com.eldar.fullstackexcersicelorenzolopez.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ViewController {
 
-    @RequestMapping(value = {"/", "/admin", "/product"})
+    @RequestMapping("/")
     public String index() {
         return "index.html";
     }

@@ -1,4 +1,4 @@
-package com.eldar.fullstackexerciselorenzolopez.controller.advice;
+package com.eldar.fullstackexcersicelorenzolopez.controller.advice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

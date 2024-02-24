@@ -1,13 +1,19 @@
-package com.eldar.fullstackexerciselorenzolopez;
+package com.eldar.fullstackexcersicelorenzolopez;
 
-import org.junit.jupiter.api.Test;
+import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-class FullstackExerciseLorenzoLopezApplicationTests {
+@ActiveProfiles("test")
+public class FullstackExerciseLorenzoLopezApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+	@Autowired
+	public EntityManager entityManager;
+
+	@Autowired
+	public JdbcTemplate jdbcTemplate;
 
 }
