@@ -1,12 +1,12 @@
 import { useRef, useEffect, useCallback, useState } from "react";
 import { findAllGuests } from "./service/guestService";
 import { emptyGuest } from "./constants/constants";
-import GuestFormModal from "./components/GuestFormModal";
+import GuestFormModal from "./components/modals/GuestFormModal";
 import Button from "./components/forms/Button";
 import "./styles/App.scss";
-import GuestLists from "./components/GuestLists";
+import GuestLists from "./components/lists/GuestLists";
 import Loading from "./components/Loading";
-import DeleteGuestModal from "./components/DeleteGuestModal";
+import DeleteGuestModal from "./components/modals/DeleteGuestModal";
 
 function App() {
     const [isLoading, setIsLoading] = useState(true);
@@ -70,6 +70,7 @@ function App() {
             </Button>
             <GuestLists
                 guests={guests}
+                setGuests={setGuests}
                 handleOpenEditModal={handleOpenUpdateGuestModal}
                 handleOpenDeleteModal={handleOpenDeleteGuestModal}
             />

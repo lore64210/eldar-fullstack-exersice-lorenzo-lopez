@@ -2,6 +2,7 @@
     width: 75%;
     margin-top: 2em;
     margin-bottom: 2em;
+    align-items: stretch;
 }
 
 .guest-list {
@@ -9,6 +10,7 @@
     border-radius: $border-radius;
     border: 1px solid $contrast-color;
     min-height: 50vh;
+    height: 100%;
     padding: 2em;
     width: 25vw;
     transition: background-color 0.25s ease-in-out;
@@ -47,4 +49,10 @@
             border: 1px solid $contrast-color;
         }
     }
+}
+
+.droppable-list {
+    min-width: 100%;
+    min-height: 100%;
+    padding-bottom: 10em;
 }

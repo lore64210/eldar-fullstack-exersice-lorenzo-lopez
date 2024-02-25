@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useState } from "react";
 import Modal from "./Modal";
-import { deleteGuest } from "../service/guestService";
+import { deleteGuest } from "../../service/guestService";
 
 const DeleteGuestModal = forwardRef(
     ({ guest, setGuest, guests, setGuests }, dialogRef) => {

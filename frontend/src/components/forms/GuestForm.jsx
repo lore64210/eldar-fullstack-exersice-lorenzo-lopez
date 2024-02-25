@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import TextInput from "./forms/TextInput";
-import Button from "./forms/Button";
-import useFormError from "../hooks/useFormError";
+import TextInput from "./TextInput";
+import Button from "./Button";
+import useFormError from "../../hooks/useFormError";
 import {
     EMAIL_PATTERN,
     NAME_PATTERN,
     PHONE_NUMBER_PATTERN,
     SURNAME_PATTERN,
-} from "../constants/constants";
-import { createGuest, updateGuest } from "../service/guestService";
+} from "../../constants/constants";
+import { createGuest, updateGuest } from "../../service/guestService";
 
 const GuestForm = ({
     guest,

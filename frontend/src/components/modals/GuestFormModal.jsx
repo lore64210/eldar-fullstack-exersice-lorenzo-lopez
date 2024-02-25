@@ -1,6 +1,6 @@
 import { useCallback, forwardRef, useState } from "react";
 import Modal from "./Modal";
-import GuestForm from "./GuestForm";
+import GuestForm from "../forms/GuestForm";
 
 const GuestFormModal = forwardRef(
     ({ guest, setGuest, guests, setGuests }, dialogRef) => {

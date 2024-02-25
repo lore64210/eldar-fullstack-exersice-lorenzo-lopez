@@ -1,6 +1,6 @@
 import { forwardRef, useCallback } from "react";
-import Button from "./forms/Button";
-import Loading from "./Loading";
+import Button from "../forms/Button";
+import Loading from "../Loading";
 import { AiOutlineClose } from "react-icons/ai";
 
 const Modal = forwardRef(
