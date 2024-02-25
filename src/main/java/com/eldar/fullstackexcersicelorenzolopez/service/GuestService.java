@@ -25,12 +25,12 @@ public class GuestService {
     }
 
     public BirthdayGuest findById(Long id) {
-        Assert.notNull(id, messageSource.getMessage("guest.id.null", null, null));
+        Assert.notNull(id, this.getMessage("guest.id.null"));
         Optional<BirthdayGuest> guest = guestRepository.findById(id);
         if (guest.isPresent()) {
             return guest.get();
         } else {
-            throw new IllegalArgumentException(messageSource.getMessage("guest.id.invalid", null, null));
+            throw new IllegalArgumentException(this.getMessage("guest.id.invalid"));
         }
     }
 
@@ -46,22 +46,22 @@ public class GuestService {
 
     public BirthdayGuest update(BirthdayGuest guest) {
         this.validateGuest(guest);
-        Assert.notNull(guest.getId(), messageSource.getMessage("guest.id.null", null, null));
+        Assert.notNull(guest.getId(), this.getMessage("guest.id.null"));
         if (guestRepository.existsById(guest.getId())) {
             return guestRepository.save(guest);
         } else {
-            throw new IllegalArgumentException(messageSource.getMessage("guest.id.invalid", null, null));
+            throw new IllegalArgumentException(this.getMessage("guest.id.invalid"));
         }
     }
 
     public List<BirthdayGuest> updateMany(ConfirmedRequestVo confirmedRequestVo) {
-        Assert.notNull(confirmedRequestVo.getConfirmedGuestIds(), messageSource.getMessage("guest.null-list", null, null));
-        Assert.notEmpty(confirmedRequestVo.getConfirmedGuestIds(), messageSource.getMessage("guest.empty-list", null, null));
+        Assert.notNull(confirmedRequestVo.getConfirmedGuestIds(), this.getMessage("guest.null-list"));
+        Assert.notEmpty(confirmedRequestVo.getConfirmedGuestIds(), this.getMessage("guest.empty-list"));
         List<BirthdayGuest> confirmedGuests = guestRepository.findAllById(confirmedRequestVo.getConfirmedGuestIds());
-        Assert.isTrue(!confirmedGuests.isEmpty(), messageSource.getMessage("guest.invalid-list", null, null));
+        Assert.isTrue(!confirmedGuests.isEmpty(), this.getMessage("guest.invalid-list"));
         List<BirthdayGuest> invitedGuests = confirmedGuests.stream().peek(guest -> {
             if (!guest.getStatus().equals(GuestStatusEnum.CONFIRMED)) {
-                throw new IllegalArgumentException(messageSource.getMessage("guest.not-confirmed", null, null));
+                throw new IllegalArgumentException(this.getMessage("guest.not-confirmed"));
             }
             guest.setStatus(GuestStatusEnum.INVITED);
         }).toList();
@@ -69,20 +69,24 @@ public class GuestService {
     }
 
     private void validateGuest(BirthdayGuest guest) {
-        Assert.notNull(guest.getName(), messageSource.getMessage("guest.name.null", null, null));
-        Assert.notNull(guest.getSurname(), messageSource.getMessage("guest.surname.null", null, null));
-        Assert.notNull(guest.getPhoneNumber(), messageSource.getMessage("guest.phone-number.null", null, null));
-        Assert.notNull(guest.getEmail(), messageSource.getMessage("guest.email.null", null, null));
+        Assert.notNull(guest.getName(), this.getMessage("guest.name.null"));
+        Assert.notNull(guest.getSurname(), this.getMessage("guest.surname.null"));
+        Assert.notNull(guest.getPhoneNumber(), this.getMessage("guest.phone-number.null"));
+        Assert.notNull(guest.getEmail(), this.getMessage("guest.email.null"));
 
-        Assert.isTrue(!guest.getName().isBlank(), messageSource.getMessage("guest.name.null", null, null));
-        Assert.isTrue(!guest.getSurname().isBlank(), messageSource.getMessage("guest.surname.null", null, null));
-        Assert.isTrue(!guest.getPhoneNumber().isBlank(), messageSource.getMessage("guest.phone-number.null", null, null));
-        Assert.isTrue(!guest.getEmail().isBlank(), messageSource.getMessage("guest.email.null", null, null));
+        Assert.isTrue(!guest.getName().isBlank(), this.getMessage("guest.name.null"));
+        Assert.isTrue(!guest.getSurname().isBlank(), this.getMessage("guest.surname.null"));
+        Assert.isTrue(!guest.getPhoneNumber().isBlank(), this.getMessage("guest.phone-number.null"));
+        Assert.isTrue(!guest.getEmail().isBlank(), this.getMessage("guest.email.null"));
 
-        Assert.isTrue(ValidationUtils.stringContainsNumbers(guest.getName()), messageSource.getMessage("guest.name.invalid", null, null));
-        Assert.isTrue(ValidationUtils.stringContainsNumbers(guest.getSurname()), messageSource.getMessage("guest.surname.invalid", null, null));
-        Assert.isTrue(ValidationUtils.isValidEmail(guest.getEmail()), messageSource.getMessage("guest.email.invalid", null, null));
-        Assert.isTrue(ValidationUtils.stringIsOnlyNumbers(guest.getPhoneNumber()), messageSource.getMessage("guest.phone-number.invalid", null, null));
+        Assert.isTrue(ValidationUtils.stringIsOnlyCharacters(guest.getName()), this.getMessage("guest.name.invalid"));
+        Assert.isTrue(ValidationUtils.stringIsOnlyCharacters(guest.getSurname()), this.getMessage("guest.surname.invalid"));
+        Assert.isTrue(ValidationUtils.isValidEmail(guest.getEmail()), this.getMessage("guest.email.invalid"));
+        Assert.isTrue(ValidationUtils.stringIsOnlyNumbers(guest.getPhoneNumber()), this.getMessage("guest.phone-number.invalid"));
+    }
+    
+    private String getMessage(String messageKey) {
+        return messageSource.getMessage(messageKey, null, null);
     }
 
 }

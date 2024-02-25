@@ -22,9 +22,6 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
     @Autowired
     private GuestService guestService;
 
-    @Autowired
-    private MessageSource messageSource;
-
     @Test
     public void findAll_withExistentGuestsInDB_returnsGuestsInDB() {
         int amount = 4;
@@ -61,14 +58,14 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
     public void findById_withNullId_throwsException() {
         Assertions.assertThatThrownBy(() -> guestService.findById(null))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.id.null", null, null));
+                .hasMessageContaining(this.getMessage("guest.id.null"));
     }
 
     @Test
     public void findById_withNonExistentId_throwsException() {
         Assertions.assertThatThrownBy(() -> guestService.findById(-1L))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.id.invalid", null, null));
+                .hasMessageContaining(this.getMessage("guest.id.invalid"));
     }
 
     @Test
@@ -98,7 +95,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.create(guest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.name.null", null, null));
+                .hasMessageContaining(this.getMessage("guest.name.null"));
     }
 
     @Test
@@ -111,7 +108,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.create(guest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.name.invalid", null, null));
+                .hasMessageContaining(this.getMessage("guest.name.invalid"));
     }
 
     @Test
@@ -124,7 +121,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.create(guest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.surname.null", null, null));
+                .hasMessageContaining(this.getMessage("guest.surname.null"));
     }
 
     @Test
@@ -137,7 +134,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.create(guest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.surname.invalid", null, null));
+                .hasMessageContaining(this.getMessage("guest.surname.invalid"));
     }
 
     @Test
@@ -150,7 +147,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.create(guest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.phone-number.null", null, null));
+                .hasMessageContaining(this.getMessage("guest.phone-number.null"));
     }
 
     @Test
@@ -163,7 +160,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.create(guest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.phone-number.invalid", null, null));
+                .hasMessageContaining(this.getMessage("guest.phone-number.invalid"));
     }
 
     @Test
@@ -176,7 +173,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.create(guest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.email.null", null, null));
+                .hasMessageContaining(this.getMessage("guest.email.null"));
     }
 
     @Test
@@ -189,7 +186,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.create(guest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.email.invalid", null, null));
+                .hasMessageContaining(this.getMessage("guest.email.invalid"));
     }
 
     @Test
@@ -230,7 +227,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.update(guestUpdated))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.name.null", null, null));
+                .hasMessageContaining(this.getMessage("guest.name.null"));
     }
 
     @Test
@@ -248,7 +245,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.update(guestUpdated))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.name.invalid", null, null));
+                .hasMessageContaining(this.getMessage("guest.name.invalid"));
     }
 
     @Test
@@ -266,7 +263,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.update(guestUpdated))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.surname.null", null, null));
+                .hasMessageContaining(this.getMessage("guest.surname.null"));
     }
 
     @Test
@@ -284,7 +281,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.update(guestUpdated))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.surname.invalid", null, null));
+                .hasMessageContaining(this.getMessage("guest.surname.invalid"));
     }
 
     @Test
@@ -302,7 +299,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.update(guestUpdated))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.phone-number.null", null, null));
+                .hasMessageContaining(this.getMessage("guest.phone-number.null"));
     }
 
     @Test
@@ -320,7 +317,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.update(guestUpdated))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.phone-number.invalid", null, null));
+                .hasMessageContaining(this.getMessage("guest.phone-number.invalid"));
     }
 
     @Test
@@ -338,7 +335,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.update(guestUpdated))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.email.null", null, null));
+                .hasMessageContaining(this.getMessage("guest.email.null"));
     }
 
     @Test
@@ -355,7 +352,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
 
         Assertions.assertThatThrownBy(() -> guestService.update(guestUpdated))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.email.invalid", null, null));
+                .hasMessageContaining(this.getMessage("guest.email.invalid"));
     }
 
     @Test
@@ -372,14 +369,14 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
     public void delete_withNullId_throwsException() {
         Assertions.assertThatThrownBy(() -> guestService.delete(null))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.id.null", null, null));
+                .hasMessageContaining(this.getMessage("guest.id.null"));
     }
 
     @Test
     public void delete_withInvalidId_throwsException() {
         Assertions.assertThatThrownBy(() -> guestService.delete(-1L))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.id.invalid", null, null));
+                .hasMessageContaining(this.getMessage("guest.id.invalid"));
     }
 
     @Test
@@ -418,7 +415,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
         confirmedRequestVo.setConfirmedGuestIds(List.of(-1L));
         Assertions.assertThatThrownBy(() -> guestService.updateMany(confirmedRequestVo))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.invalid-list", null, null));
+                .hasMessageContaining(this.getMessage("guest.invalid-list"));
     }
 
     @Test
@@ -433,7 +430,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
         confirmedRequestVo.setConfirmedGuestIds(List.of(guest1.getId()));
         Assertions.assertThatThrownBy(() -> guestService.updateMany(confirmedRequestVo))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.not-confirmed", null, null));
+                .hasMessageContaining(this.getMessage("guest.not-confirmed"));
     }
 
     @Test
@@ -442,7 +439,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
         confirmedRequestVo.setConfirmedGuestIds(null);
         Assertions.assertThatThrownBy(() -> guestService.updateMany(confirmedRequestVo))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.null-list", null, null));
+                .hasMessageContaining(this.getMessage("guest.null-list"));
     }
 
     @Test
@@ -451,7 +448,7 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
         confirmedRequestVo.setConfirmedGuestIds(Collections.emptyList());
         Assertions.assertThatThrownBy(() -> guestService.updateMany(confirmedRequestVo))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(messageSource.getMessage("guest.empty-list", null, null));
+                .hasMessageContaining(this.getMessage("guest.empty-list"));
     }
 
 }
