@@ -4,9 +4,14 @@ dialog[open] {
     background-color: $secondary-color;
     color: $text-color;
     border: none;
+    border-radius: $border-radius;
     animation: backdrop-fade 1s ease forwards;
     padding-bottom: 4em;
     outline: none;
+
+    &.delete-guest-modal {
+        width: 45vw;
+    }
 
     .dialog-content {
         max-height: 60vh;
@@ -57,4 +62,10 @@ dialog::backdrop {
         background-color: $contrast-color;
         color: $primary-color;
     }
+}
+
+.modal-submit-btn {
+    position: absolute;
+    right: 2em;
+    bottom: 1em;
 }

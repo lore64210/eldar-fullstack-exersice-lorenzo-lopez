@@ -6,13 +6,17 @@ import Button from "./components/forms/Button";
 import "./styles/App.scss";
 import GuestLists from "./components/GuestLists";
 import Loading from "./components/Loading";
+import DeleteGuestModal from "./components/DeleteGuestModal";
 
 function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [selectedGuest, setSelectedGuest] = useState(null);
+    const [selectedGuestToDelete, setSelectedGuestToDelete] = useState(null);
     const [genericError, setGenericError] = useState(null);
     const [guests, setGuests] = useState([]);
+
     const dialogRef = useRef();
+    const deleteDialogRef = useRef();
 
     useEffect(() => {
         const getGuestsAsync = async () => {
@@ -32,8 +36,22 @@ function App() {
         handleOpenGuestModal();
     }, []);
 
+    const handleOpenUpdateGuestModal = useCallback((guest) => {
+        setSelectedGuest(guest);
+        handleOpenGuestModal();
+    });
+
+    const handleOpenDeleteGuestModal = useCallback((guest) => {
+        setSelectedGuestToDelete(guest);
+        handleOpenDeleteModal();
+    });
+
     const handleOpenGuestModal = () => {
         dialogRef.current.showModal();
+    };
+
+    const handleOpenDeleteModal = () => {
+        deleteDialogRef.current.showModal();
     };
 
     if (genericError) {
@@ -43,15 +61,31 @@ function App() {
     return (
         <>
             {isLoading && <Loading />}
-            <h1>Mi lista de inviitados</h1>
-            <Button onClick={handleOpenCreateGuestModal}>
+            <h1 className="centered title">Mi lista de invitados {":D"}</h1>
+            <Button
+                className="centered create-btn"
+                onClick={handleOpenCreateGuestModal}
+            >
                 Agregar Invitado
             </Button>
-            <GuestLists guests={guests} />
+            <GuestLists
+                guests={guests}
+                handleOpenEditModal={handleOpenUpdateGuestModal}
+                handleOpenDeleteModal={handleOpenDeleteGuestModal}
+            />
             <GuestFormModal
                 ref={dialogRef}
                 guest={selectedGuest}
                 setGuest={setSelectedGuest}
+                guests={guests}
+                setGuests={setGuests}
+            />
+            <DeleteGuestModal
+                ref={deleteDialogRef}
+                guest={selectedGuestToDelete}
+                setGuest={setSelectedGuestToDelete}
+                guests={guests}
+                setGuests={setGuests}
             />
         </>
     );

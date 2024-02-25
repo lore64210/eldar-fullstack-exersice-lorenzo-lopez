@@ -57,8 +57,8 @@ const Modal = forwardRef(
                     disabled={isLoading}
                 />
                 {onSubmit && !isLoading && (
-                    <Button onClick={onSubmit}>
-                        {submitButtonText ? submitButtonText : "Submit"}
+                    <Button className="modal-submit-btn" onClick={onSubmit}>
+                        {submitButtonText ? submitButtonText : "Confirmar"}
                     </Button>
                 )}
             </dialog>

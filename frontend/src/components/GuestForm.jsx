@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import TextInput from "./forms/TextInput";
 import Button from "./forms/Button";
@@ -9,23 +10,41 @@ import {
     SURNAME_PATTERN,
 } from "../constants/constants";
 import { createGuest, updateGuest } from "../service/guestService";
-import { useCallback, useState } from "react";
 
-const GuestForm = ({ guest, setGuest, setIsLoading }) => {
+const GuestForm = ({
+    guest,
+    setGuest,
+    setIsLoading,
+    handleCloseModal,
+    guests,
+    setGuests,
+}) => {
     const [backendError, setBackendError] = useState(null);
 
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm({
         defaultValues: {
             name: guest?.name || "",
             surname: guest?.surname || "",
-            surname: guest?.email || "",
+            email: guest?.email || "",
             phoneNumber: guest?.phoneNumber || "",
         },
     });
+
+    useEffect(() => {
+        if (!!guest) {
+            reset({
+                name: guest?.name || "",
+                surname: guest?.surname || "",
+                email: guest?.email || "",
+                phoneNumber: guest?.phoneNumber || "",
+            });
+        }
+    }, [guest?.id]);
 
     const { nameError, surnameError, emailError, phoneNumberError } =
         useFormError(errors);
@@ -38,9 +57,15 @@ const GuestForm = ({ guest, setGuest, setIsLoading }) => {
         try {
             setIsLoading(true);
             if (guest?.id) {
-                await updateGuest(guest);
+                const updatedGuest = await updateGuest(guest);
+                setGuests(
+                    guests.map((g) =>
+                        g.id === updatedGuest.id ? updatedGuest : g
+                    )
+                );
             } else {
-                await createGuest(guest);
+                const newGuest = await createGuest(guest);
+                setGuests([...guests, newGuest]);
             }
         } catch (e) {
             setBackendError(
@@ -48,6 +73,7 @@ const GuestForm = ({ guest, setGuest, setIsLoading }) => {
             );
         }
         setIsLoading(false);
+        handleCloseModal();
     }, [guest]);
 
     return (

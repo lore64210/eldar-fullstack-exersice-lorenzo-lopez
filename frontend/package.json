@@ -6,15 +6,16 @@
     "proxy": "localhost8080",
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-        "watch": "vite build --watch --emptyOutDir"
+        "build": "vite build"
     },
     "dependencies": {
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-icons": "^4.10.1",
         "sass": "^1.63.6",
-        "react-hook-form": "^7.45.0"
+        "react-hook-form": "^7.45.0",
+        "@dnd-kit/core": "^6.1.0",
+        "@dnd-kit/sortable": "^8.0.0"
     },
     "devDependencies": {
         "@types/react": "^18.2.56",

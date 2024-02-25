@@ -48,7 +48,6 @@ const deleteGuest = async (id) => {
         await fetch(baseUrl + `/api/guest/${id}`, { method: "DELETE" })
             .then((response) => response.json())
             .catch((error) => console.error("Solicitud fallida", error));
-        return await parseResponse(response);
     } catch (e) {
         if (e.message === "Failed to fetch") {
             throw new Error("No se pudo conectar con el servidor");

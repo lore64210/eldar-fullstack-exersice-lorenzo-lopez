@@ -25,4 +25,21 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
+    margin: auto;
+}
+
+.space-around {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+}
+
+.space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    margin: auto;
 }

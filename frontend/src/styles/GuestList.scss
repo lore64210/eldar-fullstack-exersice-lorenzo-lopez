@@ -1,0 +1,50 @@
+.lists-container {
+    width: 75%;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.guest-list {
+    background-color: $primary-color;
+    border-radius: $border-radius;
+    border: 1px solid $contrast-color;
+    min-height: 50vh;
+    padding: 2em;
+    width: 25vw;
+    transition: background-color 0.25s ease-in-out;
+    &:hover {
+        background-color: $secondary-color;
+        .list-item {
+            background-color: $primary-color;
+            border: 1px solid $primary-color;
+        }
+    }
+    .list-item {
+        width: calc(100% - 1em);
+        margin: auto;
+        background-color: $secondary-color;
+        border-radius: $border-radius;
+        border: 1px solid $secondary-color;
+        transition: background-color 0.25s ease-in-out, border 0.15s ease-in-out;
+        cursor: pointer;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        .list-item-text {
+            margin-left: 1em;
+        }
+        .icons-container {
+            display: flex;
+            justify-content: space-between;
+            margin-right: 1em;
+            .btn {
+                margin: 0.25em;
+            }
+            .icon {
+                font-size: 1.5rem;
+            }
+        }
+        &:hover {
+            border: 1px solid $contrast-color;
+        }
+    }
+}
