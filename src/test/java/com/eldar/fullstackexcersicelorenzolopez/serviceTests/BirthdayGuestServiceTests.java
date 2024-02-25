@@ -82,7 +82,25 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
         Assertions.assertThat(guestInDB.getSurname()).isEqualTo(guest.getSurname());
         Assertions.assertThat(guestInDB.getEmail()).isEqualTo(guest.getEmail());
         Assertions.assertThat(guestInDB.getPhoneNumber()).isEqualTo(guest.getPhoneNumber());
-        Assertions.assertThat(guestInDB.getStatus()).isEqualTo(guest.getStatus());
+        Assertions.assertThat(guestInDB.getStatus()).isEqualTo(GuestStatusEnum.POSSIBLE);
+    }
+
+    @Test
+    public void create_withValidGuestDataAndSomeStatus_createsGuestAndReturnsItWithStatusPossible() {
+        BirthdayGuest guest = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .build();
+
+        BirthdayGuest guestInDB = guestService.create(guest);
+
+        Assertions.assertThat(guestInDB.getId()).isNotNull();
+        Assertions.assertThat(guestInDB.getName()).isEqualTo(guest.getName());
+        Assertions.assertThat(guestInDB.getSurname()).isEqualTo(guest.getSurname());
+        Assertions.assertThat(guestInDB.getEmail()).isEqualTo(guest.getEmail());
+        Assertions.assertThat(guestInDB.getPhoneNumber()).isEqualTo(guest.getPhoneNumber());
+        Assertions.assertThat(guestInDB.getStatus()).isEqualTo(GuestStatusEnum.POSSIBLE);
     }
 
     @Test

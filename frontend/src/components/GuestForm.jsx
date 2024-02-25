@@ -73,7 +73,7 @@ const GuestForm = ({ onSubmit, guest, setGuest }) => {
                 register={register}
                 name="email"
                 required
-                maxLength={255}
+                maxLength={100}
                 onChange={handleGuestChange}
                 pattern={EMAIL_PATTERN}
             />
@@ -88,10 +88,11 @@ const GuestForm = ({ onSubmit, guest, setGuest }) => {
                 register={register}
                 name="phoneNumber"
                 required
-                maxLength={25}
+                maxLength={10}
                 onChange={handleGuestChange}
                 pattern={PHONE_NUMBER_PATTERN}
             />
+            <br />
             <Button className="" isSubmit>
                 Guardar
             </Button>

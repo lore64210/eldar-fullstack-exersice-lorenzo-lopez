@@ -41,6 +41,7 @@ public class GuestService {
 
     public BirthdayGuest create(BirthdayGuest guest) {
         this.validateGuest(guest);
+        guest.setStatus(GuestStatusEnum.POSSIBLE);
         return guestRepository.save(guest);
     }
 

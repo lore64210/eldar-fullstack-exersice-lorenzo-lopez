@@ -1,17 +1,19 @@
+const baseUrl = "http://localhost:8080";
+
 const findAllGuests = async () => {
-    return await fetch("/api/guest")
+    return await fetch(baseUrl + "/api/guest")
         .then((response) => response.json())
         .catch((error) => console.error("Solicitud fallida", error));
 };
 
 const findGuestById = async (id) => {
-    return await fetch(`/api/guest/${id}`)
+    return await fetch(baseUrl + `/api/guest/${id}`)
         .then((response) => response.json())
         .catch((error) => console.error("Solicitud fallida", error));
 };
 
 const createGuest = async (newGuest) => {
-    return await fetch("/api/guest", {
+    return await fetch(baseUrl + "/api/guest", {
         method: "POST",
         body: JSON.stringify(newGuest),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -21,7 +23,7 @@ const createGuest = async (newGuest) => {
 };
 
 const updateGuest = async (guest) => {
-    return await fetch("/api/guest", {
+    return await fetch(baseUrl + "/api/guest", {
         method: "PUT",
         body: JSON.stringify(guest),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -31,7 +33,7 @@ const updateGuest = async (guest) => {
 };
 
 const deleteGuest = async (id) => {
-    await fetch(`/api/guest/${id}`, { method: "DELETE" })
+    await fetch(baseUrl + `/api/guest/${id}`, { method: "DELETE" })
         .then((response) => response.json())
         .catch((error) => console.error("Solicitud fallida", error));
 };
@@ -40,7 +42,7 @@ const inviteGuests = async (guestIdList) => {
     const body = {
         confirmedGuestIds: guestIdList,
     };
-    return await fetch("/api/guest/invite-confirmed", {
+    return await fetch(baseUrl + "/api/guest/invite-confirmed", {
         method: "PUT",
         body: JSON.stringify(body),
         headers: { "Content-type": "application/json; charset=UTF-8" },

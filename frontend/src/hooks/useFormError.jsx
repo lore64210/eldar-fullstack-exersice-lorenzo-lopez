@@ -13,7 +13,10 @@ const useFormError = (errors) => {
             if (errors.name.type === "required") {
                 return REQUIRED_FIELD_MESSAGE;
             }
-            if (errors.name.type === "pattern") {
+            if (
+                errors.name.type === "pattern" ||
+                errors.name.type === "maxLength"
+            ) {
                 return INVALID_NAME_MESSAGE;
             }
         }
@@ -25,7 +28,10 @@ const useFormError = (errors) => {
             if (errors.surname.type === "required") {
                 return REQUIRED_FIELD_MESSAGE;
             }
-            if (errors.surname.type === "pattern") {
+            if (
+                errors.surname.type === "pattern" ||
+                errors.surname.type === "maxLength"
+            ) {
                 return INVALID_SURNAME_MESSAGE;
             }
         }
@@ -37,7 +43,10 @@ const useFormError = (errors) => {
             if (errors.email.type === "required") {
                 return REQUIRED_FIELD_MESSAGE;
             }
-            if (errors.email.type === "pattern") {
+            if (
+                errors.email.type === "pattern" ||
+                errors.email.type === "maxLength"
+            ) {
                 return INVALID_EMAIL_MESSAGE;
             }
         }
@@ -49,7 +58,10 @@ const useFormError = (errors) => {
             if (errors.phoneNumber.type === "required") {
                 return REQUIRED_FIELD_MESSAGE;
             }
-            if (errors.phoneNumber.type === "pattern") {
+            if (
+                errors.phoneNumber.type === "pattern" ||
+                errors.phoneNumber.type === "maxLength"
+            ) {
                 return INVALID_PHONE_NUMBER_MESSAGE;
             }
         }
