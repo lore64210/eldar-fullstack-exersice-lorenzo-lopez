@@ -21,11 +21,6 @@ public class GuestRestController {
         return ResponseEntity.ok(guestService.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<BirthdayGuest> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(guestService.findById(id));
-    }
-
     @PostMapping
     public ResponseEntity<BirthdayGuest> save(@RequestBody BirthdayGuest birthdayGuest) {
         return ResponseEntity.ok(guestService.create(birthdayGuest));
