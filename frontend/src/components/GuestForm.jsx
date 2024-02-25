@@ -8,8 +8,12 @@ import {
     PHONE_NUMBER_PATTERN,
     SURNAME_PATTERN,
 } from "../constants/constants";
+import { createGuest, updateGuest } from "../service/guestService";
+import { useCallback, useState } from "react";
 
-const GuestForm = ({ onSubmit, guest, setGuest }) => {
+const GuestForm = ({ guest, setGuest, setIsLoading }) => {
+    const [backendError, setBackendError] = useState(null);
+
     const {
         register,
         handleSubmit,
@@ -30,8 +34,24 @@ const GuestForm = ({ onSubmit, guest, setGuest }) => {
         setGuest({ ...guest, [name]: value });
     };
 
+    const onSubmit = useCallback(async () => {
+        try {
+            setIsLoading(true);
+            if (guest?.id) {
+                await updateGuest(guest);
+            } else {
+                await createGuest(guest);
+            }
+        } catch (e) {
+            setBackendError(
+                "Error: " + (e.message ?? "Error al guardar la informacion")
+            );
+        }
+        setIsLoading(false);
+    }, [guest]);
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="login-container">
+        <form onSubmit={handleSubmit(onSubmit)}>
             <TextInput
                 label="Nombre"
                 error={nameError}
@@ -93,7 +113,11 @@ const GuestForm = ({ onSubmit, guest, setGuest }) => {
                 pattern={PHONE_NUMBER_PATTERN}
             />
             <br />
-            <Button className="" isSubmit>
+            {!!backendError && (
+                <p className="form-backend-error centered">{backendError}</p>
+            )}
+            <br />
+            <Button className="form-submit-btn centered" isSubmit>
                 Guardar
             </Button>
         </form>
