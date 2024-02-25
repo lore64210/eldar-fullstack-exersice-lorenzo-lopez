@@ -1,0 +1,60 @@
+dialog[open] {
+    position: fixed;
+    width: 75%;
+    background-color: $secondary-color;
+    color: $text-color;
+    border: none;
+    animation: backdrop-fade 1s ease forwards;
+    padding-bottom: 4em;
+    outline: none;
+
+    .dialog-content {
+        max-height: 60vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        & > p {
+            padding-left: 1em;
+        }
+        & > span {
+            padding-left: 2em;
+            margin-left: 0;
+        }
+        &::before {
+            content: "";
+            display: block;
+            height: 1px;
+            width: 100%;
+            background-color: $contrast-color;
+        }
+        &::after {
+            content: "";
+            display: block;
+            height: 1px;
+            width: 100%;
+            margin-top: 1em;
+            background-color: $contrast-color;
+        }
+    }
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-close-btn {
+    top: 1em;
+    right: 1em;
+    padding: 0.35em;
+    font-size: 1.25em;
+    transition: all 0.5s ease-in-out;
+    background-color: $secondary-color;
+    color: $contrast-color;
+    opacity: 1 !important;
+    border-radius: 1em !important;
+    cursor: pointer;
+    position: absolute;
+    &:hover {
+        background-color: $contrast-color;
+        color: $primary-color;
+    }
+}

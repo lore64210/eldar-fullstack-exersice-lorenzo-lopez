@@ -1,0 +1,18 @@
+.btn {
+    border: none;
+    background-color: $secondary-color;
+    color: $contrast-color;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    cursor: pointer;
+    transition: background-color ease-in-out 0.25s;
+}
+
+.btn:hover {
+    background-color: $primary-color;
+}
+
+.btn:focus {
+    border: none;
+    outline: none;
+}

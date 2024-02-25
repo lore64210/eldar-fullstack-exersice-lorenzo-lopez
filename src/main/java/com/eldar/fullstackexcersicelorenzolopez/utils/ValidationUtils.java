@@ -5,10 +5,10 @@ import java.util.regex.Pattern;
 
 public class ValidationUtils {
 
-    public static boolean stringContainsNumbers(String input) {
-        Pattern pattern = Pattern.compile(".*\\d.*");
+    public static boolean stringIsOnlyCharacters(String input) {
+        Pattern pattern = Pattern.compile("^[A-Za-z]+$");
         Matcher matcher = pattern.matcher(input);
-        return !matcher.matches();
+        return matcher.matches();
     }
 
     public static boolean stringIsOnlyNumbers(String input) {

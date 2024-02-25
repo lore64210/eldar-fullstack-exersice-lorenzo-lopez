@@ -11,7 +11,10 @@
     },
     "dependencies": {
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "react-icons": "^4.10.1",
+        "sass": "^1.63.6",
+        "react-hook-form": "^7.45.0"
     },
     "devDependencies": {
         "@types/react": "^18.2.56",
