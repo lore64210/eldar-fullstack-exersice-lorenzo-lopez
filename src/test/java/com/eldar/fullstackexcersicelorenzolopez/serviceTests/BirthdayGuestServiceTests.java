@@ -502,7 +502,6 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
         Assertions.assertThat(guest3.getStatus()).isEqualTo(GuestStatusEnum.INVITED);
     }
 
-
     @Test
     public void updateMany_withNonExistentIdInList_throwsException() {
         ConfirmedRequestVo confirmedRequestVo = new ConfirmedRequestVo();

@@ -13,7 +13,7 @@ const DeleteGuestModal = forwardRef(
         const handleDeleteGuest = useCallback(async () => {
             setIsLoading(true);
             await deleteGuest(guestToDelete.id);
-            setGuests(guests.filter((g) => g.id !== guest.id));
+            setGuests(guests.filter((g) => g.id !== guestToDelete.id));
             setGuestToDelete(null);
             setIsLoading(false);
             handleCloseModal();

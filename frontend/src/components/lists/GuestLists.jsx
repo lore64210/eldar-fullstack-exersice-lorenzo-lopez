@@ -20,6 +20,9 @@ const getOrderedGuestList = (guestList, status, orderKey = "position") => {
 };
 
 const updateGuestPositions = (guests, newGuest) => {
+    // TODO refactor
+    // Si hay errores en el ordenamiento, seguro sale de aca
+    // Esta replicando la logica del backend, hay que corregir en ambos lados
     const previousGuest = guests.find((g) => g.id === newGuest.id);
     const prevPosition = previousGuest.position;
     const newPosition = newGuest.position;
@@ -37,7 +40,7 @@ const updateGuestPositions = (guests, newGuest) => {
                     ) {
                         return { ...g, position: g.position - 1 };
                     }
-                } else if (newPosition <= prevPosition) {
+                } else {
                     if (
                         newPosition <= g.position &&
                         prevPosition > g.position
@@ -45,6 +48,8 @@ const updateGuestPositions = (guests, newGuest) => {
                         return { ...g, position: g.position + 1 };
                     }
                 }
+            } else if (newPosition <= g.position) {
+                return { ...g, position: g.position + 1 };
             }
         }
         return g;
