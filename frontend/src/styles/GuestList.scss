@@ -13,6 +13,7 @@
     height: 100%;
     padding: 2em;
     width: 25vw;
+    margin-bottom: 3em;
     transition: background-color 0.25s ease-in-out;
     &:hover {
         background-color: $secondary-color;
@@ -31,6 +32,9 @@
         cursor: pointer;
         margin-top: 0.5em;
         margin-bottom: 0.5em;
+        &.static-list-item {
+            cursor: auto;
+        }
         .list-item-text {
             margin-left: 1em;
         }
