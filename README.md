@@ -10,6 +10,7 @@ Como correr el proyecto:
 Metodo 1:
 
 mvn clean install
+
 java -jar .\target\fullstack-exercise-lorenzo-lopez-0.0.1-SNAPSHOT.jar
 (O correr el archivo .jar desde el IDE)
 
@@ -20,6 +21,7 @@ http://localhost:8080
 Metodo 2 (desarrollo):
 Instalar y correr el frontend en modo desarrollo
 npm i
+
 npm run dev
 
 Ejecutar el backend desde el ide
