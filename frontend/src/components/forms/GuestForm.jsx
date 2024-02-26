@@ -38,6 +38,7 @@ const GuestForm = ({
 
     useEffect(() => {
         if (!!guest) {
+            setBackendError(null);
             reset({
                 name: guest?.name || "",
                 surname: guest?.surname || "",
