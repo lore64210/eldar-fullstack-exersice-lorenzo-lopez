@@ -4,10 +4,6 @@ const TextInput = ({
     label,
     error,
     placeholder,
-    className = "",
-    inputClassName = "",
-    labelClassName = "",
-    errorClassName = "",
     register,
     name,
     required = false,
@@ -36,22 +32,20 @@ const TextInput = ({
 
     return (
         <>
-            <div className={`${className} input-container`}>
+            <div className="input-container">
                 <label>
                     <input
                         type={type}
-                        className={`${inputClassName} input`}
+                        className="input"
                         placeholder={placeholder}
                         defaultValue={defaultValue}
                         {...inputProps}
                         onChange={handleOnChange}
                     />
-                    <span className={`${labelClassName} label`}>{label}</span>
+                    <span className="label">{label}</span>
                 </label>
             </div>
-            {error && (
-                <span className={`${errorClassName} input-error`}>{error}</span>
-            )}
+            {error && <span className="input-error">{error}</span>}
         </>
     );
 };

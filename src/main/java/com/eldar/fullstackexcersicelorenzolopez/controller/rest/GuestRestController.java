@@ -29,6 +29,7 @@ public class GuestRestController {
     /*
     * Considero que si bien en las api rest
     * se especifica el id del objeto a modificar en la url
+    * (/api/guest/{id})
     * estaria exponiendo informacion innecesaria
     * por lo tanto uso el id que llega en el cuerpo de la peticion
     * */

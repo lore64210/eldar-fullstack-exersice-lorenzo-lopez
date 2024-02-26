@@ -126,7 +126,7 @@ public class GuestService {
     private void updatePositionsAtDeletion(BirthdayGuest deletedGuest) {
         List<BirthdayGuest> guests = guestRepository.findAllByStatus(deletedGuest.getStatus());
         guests.forEach(guest -> {
-            if (!guest.getId().equals(deletedGuest.getId()) && deletedGuest.getPosition() >= guest.getPosition()) {
+            if (!guest.getId().equals(deletedGuest.getId()) && deletedGuest.getPosition() < guest.getPosition()) {
                 guest.setPosition(guest.getPosition() - 1);
             }
         });

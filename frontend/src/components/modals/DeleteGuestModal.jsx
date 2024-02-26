@@ -3,7 +3,7 @@ import Modal from "./Modal";
 import { deleteGuest } from "../../service/guestService";
 
 const DeleteGuestModal = forwardRef(
-    ({ guest, setGuest, guests, setGuests }, dialogRef) => {
+    ({ guestToDelete, setGuestToDelete, guests, setGuests }, dialogRef) => {
         const [isLoading, setIsLoading] = useState(false);
 
         const handleCloseModal = useCallback(() => {
@@ -12,9 +12,9 @@ const DeleteGuestModal = forwardRef(
 
         const handleDeleteGuest = useCallback(async () => {
             setIsLoading(true);
-            await deleteGuest(guest.id);
+            await deleteGuest(guestToDelete.id);
             setGuests(guests.filter((g) => g.id !== guest.id));
-            setGuest(null);
+            setGuestToDelete(null);
             setIsLoading(false);
             handleCloseModal();
         }, [guest]);
@@ -31,7 +31,9 @@ const DeleteGuestModal = forwardRef(
             >
                 <p>
                     ¿Desea eliminar al invitado{" "}
-                    {!!guest && `${guest.name} ${guest.name}`}?
+                    {!!guestToDelete &&
+                        `${guestToDelete.name} ${guestToDelete.name}`}
+                    ?
                 </p>
             </Modal>
         );

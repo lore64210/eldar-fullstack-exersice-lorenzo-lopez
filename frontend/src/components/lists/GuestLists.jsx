@@ -23,7 +23,6 @@ const updateGuestPositions = (guests, newGuest) => {
     const previousGuest = guests.find((g) => g.id === newGuest.id);
     const prevPosition = previousGuest.position;
     const newPosition = newGuest.position;
-    console.log(newGuest, previousGuest);
     return guests.map((g) => {
         if (g.id === newGuest.id) {
             return newGuest;
@@ -82,7 +81,6 @@ const GuestLists = ({
             status,
             position: position + 1, // por ser el indice del array tengo que sumarle 1
         });
-
         setGuests(updateGuestPositions(guests, newGuest));
     };
 
@@ -96,8 +94,6 @@ const GuestLists = ({
             if (destination.index === source.index) {
                 return;
             }
-
-            console.log(lists[source.droppableId][source.index]);
 
             const reorderedList = reorder(
                 lists[source.droppableId],

@@ -89,10 +89,6 @@ const GuestForm = ({
                 label="Nombre"
                 error={nameError}
                 placeholder="Nombre"
-                className=""
-                inputClassNaem=""
-                labelClassName=""
-                errorClassName=""
                 register={register}
                 name="name"
                 required
@@ -104,10 +100,6 @@ const GuestForm = ({
                 label="Apellido"
                 error={surnameError}
                 placeholder="Apellido"
-                className=""
-                inputClassName=""
-                labelClassName=""
-                errorClassName=""
                 register={register}
                 name="surname"
                 required
@@ -119,10 +111,6 @@ const GuestForm = ({
                 label="email"
                 error={emailError}
                 placeholder="email"
-                className=""
-                inputClassName=""
-                labelClassName=""
-                errorClassName=""
                 register={register}
                 name="email"
                 required
@@ -134,10 +122,6 @@ const GuestForm = ({
                 label="Telefono"
                 error={phoneNumberError}
                 placeholder="Telefono"
-                className=""
-                inputClassName=""
-                labelClassName=""
-                errorClassName=""
                 register={register}
                 name="phoneNumber"
                 required

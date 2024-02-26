@@ -12,6 +12,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -405,8 +406,57 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
                 .getInstance()
                 .createGeneric()
                 .build(entityManager);
+        entityManager.flush();
+        int rowsBeforeDelete = JdbcTestUtils.countRowsInTable(jdbcTemplate, "guest");
 
         guestService.delete(guest.getId());
+
+        entityManager.flush();
+        int rowsAfterDelete = JdbcTestUtils.countRowsInTable(jdbcTemplate, "guest");
+
+        Assertions.assertThat(rowsAfterDelete).isEqualTo(rowsBeforeDelete - 1);
+    }
+
+    @Test
+    public void delete_withValidIdAndOtherGuestsWithSameStatus_deletesGuestFromDBAndUpdatesPositions() {
+        BirthdayGuest guest1 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(1)
+                .build(entityManager);
+        BirthdayGuest guest2 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(2)
+                .build(entityManager);
+        BirthdayGuest guest3 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(3)
+                .build(entityManager);
+        BirthdayGuest guest4 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(4)
+                .build(entityManager);
+
+        entityManager.flush();
+        int rowsBeforeDelete = JdbcTestUtils.countRowsInTable(jdbcTemplate, "guest");
+
+        guestService.delete(guest1.getId());
+
+        entityManager.flush();
+        int rowsAfterDelete = JdbcTestUtils.countRowsInTable(jdbcTemplate, "guest");
+
+
+        Assertions.assertThat(rowsAfterDelete).isEqualTo(rowsBeforeDelete - 1);
+        Assertions.assertThat(guest2.getPosition()).isEqualTo(1);
+        Assertions.assertThat(guest3.getPosition()).isEqualTo(2);
+        Assertions.assertThat(guest4.getPosition()).isEqualTo(3);
     }
 
     @Test

@@ -111,8 +111,8 @@ function App() {
             />
             <DeleteGuestModal
                 ref={deleteDialogRef}
-                guest={selectedGuestToDelete}
-                setGuest={setSelectedGuestToDelete}
+                guestToDelete={selectedGuestToDelete}
+                setGuestToDelete={setSelectedGuestToDelete}
                 guests={guests}
                 setGuests={setGuests}
             />
