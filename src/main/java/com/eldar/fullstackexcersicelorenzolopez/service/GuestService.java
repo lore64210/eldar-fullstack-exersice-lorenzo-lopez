@@ -94,9 +94,52 @@ public class GuestService {
     private void updatePositions(BirthdayGuest updatedGuest, BirthdayGuest oldGuest) {
         Integer newPosition = updatedGuest.getPosition();
         Integer oldPosition = oldGuest.getPosition();
-
         List<BirthdayGuest> guestsFromNewStatus = guestRepository.findAllByStatus(updatedGuest.getStatus());
+        if (!updatedGuest.getStatus().equals(oldGuest.getStatus())) {
+            List<BirthdayGuest> guestsFromOldStatus = guestRepository.findAllByStatus(oldGuest.getStatus());
+            guestsFromNewStatus.forEach(guest -> {
+                if (newPosition <= guest.getPosition()) {
+                    guest.setPosition(guest.getPosition() + 1);
+                }
+            });
 
+            guestsFromOldStatus.forEach(guest -> {
+                if (oldPosition <= guest.getPosition()) {
+                    guest.setPosition(guest.getPosition() - 1);
+                }
+            });
+            guestRepository.saveAll(guestsFromOldStatus);
+            guestRepository.saveAll(guestsFromNewStatus);
+        } else {
+            guestsFromNewStatus.forEach(guest -> {
+                if (!guest.getId().equals(updatedGuest.getId()) && !newPosition.equals(oldPosition)) {
+                    if (newPosition > oldPosition) {
+                        if (newPosition >= guest.getPosition() && oldPosition < guest.getPosition()) {
+                            guest.setPosition(guest.getPosition() - 1);
+                        }
+                    } else {
+                        if (newPosition <= guest.getPosition() && oldPosition > guest.getPosition()) {
+                            guest.setPosition(guest.getPosition() + 1);
+                        }
+                    }
+                }
+            });
+            guestRepository.saveAll(guestsFromNewStatus);
+        }
+    }
+
+
+
+
+
+
+
+
+    /*
+    private void updatePositions(BirthdayGuest updatedGuest, BirthdayGuest oldGuest) {
+        Integer newPosition = updatedGuest.getPosition();
+        Integer oldPosition = oldGuest.getPosition();
+        List<BirthdayGuest> guestsFromNewStatus = guestRepository.findAllByStatus(updatedGuest.getStatus());
         guestsFromNewStatus.forEach(guest -> {
             if (!guest.getId().equals(updatedGuest.getId()) && !newPosition.equals(oldPosition)) {
                 if (newPosition > oldPosition) {
@@ -111,18 +154,17 @@ public class GuestService {
             }
         });
         guestRepository.saveAll(guestsFromNewStatus);
-
         if (!updatedGuest.getStatus().equals(oldGuest.getStatus())) {
             List<BirthdayGuest> guestsFromOldStatus = guestRepository.findAllByStatus(oldGuest.getStatus());
             guestsFromOldStatus.forEach(guest -> {
-                if (newPosition <= guest.getPosition()) {
+                if (oldPosition <= guest.getPosition()) {
                     guest.setPosition(guest.getPosition() + 1);
                 }
             });
             guestRepository.saveAll(guestsFromOldStatus);
         }
     }
-
+*/
     private void updatePositionsAtDeletion(BirthdayGuest deletedGuest) {
         List<BirthdayGuest> guests = guestRepository.findAllByStatus(deletedGuest.getStatus());
         guests.forEach(guest -> {

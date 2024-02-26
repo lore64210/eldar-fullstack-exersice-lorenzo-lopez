@@ -20,37 +20,40 @@ const getOrderedGuestList = (guestList, status, orderKey = "position") => {
 };
 
 const updateGuestPositions = (guests, newGuest) => {
-    // TODO refactor
-    // Si hay errores en el ordenamiento, seguro sale de aca
-    // Esta replicando la logica del backend, hay que corregir en ambos lados
     const previousGuest = guests.find((g) => g.id === newGuest.id);
     const prevPosition = previousGuest.position;
     const newPosition = newGuest.position;
     return guests.map((g) => {
         if (g.id === newGuest.id) {
             return newGuest;
-        } else if (g.status !== newGuest.status) {
-            return g;
         } else {
-            if (newGuest.status === previousGuest.status) {
-                if (newPosition > prevPosition) {
-                    if (
-                        newPosition >= g.position &&
-                        prevPosition < g.position
-                    ) {
-                        return { ...g, position: g.position - 1 };
+            let position = g.position;
+            if (
+                newGuest.status === previousGuest.status &&
+                g.status === newGuest.status &&
+                newPosition < prevPosition &&
+                g.position >= newGuest.position
+            ) {
+                position++;
+            } else if (
+                newGuest.status === previousGuest.status &&
+                g.status === newGuest.status &&
+                newPosition > prevPosition &&
+                g.position <= newGuest.position
+            ) {
+                position--;
+            } else if (newGuest.status !== previousGuest.status) {
+                if (g.status === newGuest.status) {
+                    if (g.position >= newGuest.position) {
+                        position++;
                     }
                 } else {
-                    if (
-                        newPosition <= g.position &&
-                        prevPosition > g.position
-                    ) {
-                        return { ...g, position: g.position + 1 };
+                    if (g.position >= previousGuest.position) {
+                        position--;
                     }
                 }
-            } else if (newPosition <= g.position) {
-                return { ...g, position: g.position + 1 };
             }
+            return { ...g, position };
         }
         return g;
     });

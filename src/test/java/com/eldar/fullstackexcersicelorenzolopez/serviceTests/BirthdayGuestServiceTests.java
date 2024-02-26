@@ -258,6 +258,169 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
     }
 
     @Test
+    public void update_withValidGuestDataAndPositionChanged_createsGuestReturnsItAndChangesPositionsDescInOtherGuests() {
+        BirthdayGuest guest1 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(1)
+                .build(entityManager);
+        BirthdayGuest guest2 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(2)
+                .build(entityManager);
+        BirthdayGuest guest3 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(3)
+                .build(entityManager);
+        BirthdayGuest guest4 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(4)
+                .build(entityManager);
+        BirthdayGuest guestUpdated = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withId(guest1.getId())
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(4)
+                .build();
+
+        BirthdayGuest guestInDB = guestService.update(guestUpdated);
+
+        Assertions.assertThat(guestInDB.getId()).isNotNull();
+        Assertions.assertThat(guestInDB.getId()).isEqualTo(guestUpdated.getId());
+        Assertions.assertThat(guestInDB.getName()).isEqualTo(guestUpdated.getName());
+        Assertions.assertThat(guestInDB.getSurname()).isEqualTo(guestUpdated.getSurname());
+        Assertions.assertThat(guestInDB.getEmail()).isEqualTo(guestUpdated.getEmail());
+        Assertions.assertThat(guestInDB.getPhoneNumber()).isEqualTo(guestUpdated.getPhoneNumber());
+        Assertions.assertThat(guestInDB.getStatus()).isEqualTo(guestUpdated.getStatus());
+
+        Assertions.assertThat(guest2.getPosition()).isEqualTo(1);
+        Assertions.assertThat(guest3.getPosition()).isEqualTo(2);
+        Assertions.assertThat(guest4.getPosition()).isEqualTo(3);
+    }
+
+
+    @Test
+    public void update_withValidGuestDataAndPositionAndStatusChanged_createsGuestReturnsItAndChangesPositionsInOtherGuests() {
+        BirthdayGuest guest1 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(1)
+                .build(entityManager);
+        BirthdayGuest guest2 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(2)
+                .build(entityManager);
+        BirthdayGuest guest3 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(3)
+                .build(entityManager);
+        BirthdayGuest guest4 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.POSSIBLE)
+                .withPosition(1)
+                .build(entityManager);
+        BirthdayGuest guest5 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.POSSIBLE)
+                .withPosition(2)
+                .build(entityManager);
+        BirthdayGuest guest6 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.POSSIBLE)
+                .withPosition(3)
+                .build(entityManager);
+
+        BirthdayGuest guestUpdated = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withId(guest1.getId())
+                .withStatus(GuestStatusEnum.POSSIBLE)
+                .withPosition(1)
+                .build();
+
+        BirthdayGuest guestInDB = guestService.update(guestUpdated);
+
+        Assertions.assertThat(guestInDB.getId()).isNotNull();
+        Assertions.assertThat(guestInDB.getId()).isEqualTo(guestUpdated.getId());
+        Assertions.assertThat(guestInDB.getName()).isEqualTo(guestUpdated.getName());
+        Assertions.assertThat(guestInDB.getSurname()).isEqualTo(guestUpdated.getSurname());
+        Assertions.assertThat(guestInDB.getEmail()).isEqualTo(guestUpdated.getEmail());
+        Assertions.assertThat(guestInDB.getPhoneNumber()).isEqualTo(guestUpdated.getPhoneNumber());
+        Assertions.assertThat(guestInDB.getStatus()).isEqualTo(guestUpdated.getStatus());
+
+        Assertions.assertThat(guest2.getPosition()).isEqualTo(1);
+        Assertions.assertThat(guest3.getPosition()).isEqualTo(2);
+        Assertions.assertThat(guest4.getPosition()).isEqualTo(2);
+        Assertions.assertThat(guest5.getPosition()).isEqualTo(3);
+        Assertions.assertThat(guest6.getPosition()).isEqualTo(4);
+    }
+
+    @Test
+    public void update_withValidGuestDataAndPositionChanged_createsGuestReturnsItAndChangesPositionsAscInOtherGuests() {
+        BirthdayGuest guest1 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(1)
+                .build(entityManager);
+        BirthdayGuest guest2 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(2)
+                .build(entityManager);
+        BirthdayGuest guest3 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(3)
+                .build(entityManager);
+        BirthdayGuest guest4 = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(4)
+                .build(entityManager);
+        BirthdayGuest guestUpdated = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withId(guest4.getId())
+                .withStatus(GuestStatusEnum.CONFIRMED)
+                .withPosition(1)
+                .build();
+
+        BirthdayGuest guestInDB = guestService.update(guestUpdated);
+
+        Assertions.assertThat(guestInDB.getId()).isNotNull();
+        Assertions.assertThat(guestInDB.getId()).isEqualTo(guestUpdated.getId());
+        Assertions.assertThat(guestInDB.getName()).isEqualTo(guestUpdated.getName());
+        Assertions.assertThat(guestInDB.getSurname()).isEqualTo(guestUpdated.getSurname());
+        Assertions.assertThat(guestInDB.getEmail()).isEqualTo(guestUpdated.getEmail());
+        Assertions.assertThat(guestInDB.getPhoneNumber()).isEqualTo(guestUpdated.getPhoneNumber());
+        Assertions.assertThat(guestInDB.getStatus()).isEqualTo(guestUpdated.getStatus());
+
+        Assertions.assertThat(guest1.getPosition()).isEqualTo(2);
+        Assertions.assertThat(guest2.getPosition()).isEqualTo(3);
+        Assertions.assertThat(guest3.getPosition()).isEqualTo(4);
+    }
+
+    @Test
     public void update_withNullName_throwsException() {
         BirthdayGuest guest = BirthdayGuestBuilder
                 .getInstance()
