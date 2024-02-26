@@ -3,10 +3,11 @@ import { findAllGuests, inviteGuests } from "./service/guestService";
 import { STATUS, emptyGuest } from "./constants/constants";
 import GuestFormModal from "./components/modals/GuestFormModal";
 import Button from "./components/forms/Button";
-import "./styles/App.scss";
 import GuestLists from "./components/lists/GuestLists";
 import Loading from "./components/Loading";
 import DeleteGuestModal from "./components/modals/DeleteGuestModal";
+import useStore from "./store/store";
+import "./styles/App.scss";
 
 function App() {
     const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +15,7 @@ function App() {
     const [selectedGuestToDelete, setSelectedGuestToDelete] = useState(null);
     const [genericError, setGenericError] = useState(null);
     const [inviteError, setInviteError] = useState(null);
-    const [guests, setGuests] = useState([]);
+    const { guests, setGuests } = useStore((state) => state);
 
     const dialogRef = useRef();
     const deleteDialogRef = useRef();
@@ -97,8 +98,6 @@ function App() {
             </Button>
             {inviteError && <p className="error centered">{inviteError}</p>}
             <GuestLists
-                guests={guests}
-                setGuests={setGuests}
                 handleOpenEditModal={handleOpenUpdateGuestModal}
                 handleOpenDeleteModal={handleOpenDeleteGuestModal}
             />
@@ -106,15 +105,11 @@ function App() {
                 ref={dialogRef}
                 guest={selectedGuest}
                 setGuest={setSelectedGuest}
-                guests={guests}
-                setGuests={setGuests}
             />
             <DeleteGuestModal
                 ref={deleteDialogRef}
                 guestToDelete={selectedGuestToDelete}
                 setGuestToDelete={setSelectedGuestToDelete}
-                guests={guests}
-                setGuests={setGuests}
             />
         </>
     );

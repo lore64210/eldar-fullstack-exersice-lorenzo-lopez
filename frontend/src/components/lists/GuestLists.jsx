@@ -4,6 +4,7 @@ import StaticList from "./StaticList";
 import DynamicList from "./DynamicList";
 import { DragDropContext } from "react-beautiful-dnd";
 import { updateGuest } from "../../service/guestService";
+import useStore from "../../store/store";
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -59,12 +60,8 @@ const updateGuestPositions = (guests, newGuest) => {
     });
 };
 
-const GuestLists = ({
-    guests,
-    setGuests,
-    handleOpenEditModal,
-    handleOpenDeleteModal,
-}) => {
+const GuestLists = ({ handleOpenEditModal, handleOpenDeleteModal }) => {
+    const { guests, setGuests } = useStore((state) => state);
     const [lists, setLists] = useState({
         [STATUS.possible]: getOrderedGuestList(guests, STATUS.possible),
         [STATUS.confirmed]: getOrderedGuestList(guests, STATUS.confirmed),

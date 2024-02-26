@@ -1,9 +1,11 @@
 import { forwardRef, useCallback, useState } from "react";
 import Modal from "./Modal";
 import { deleteGuest } from "../../service/guestService";
+import useStore from "../../store/store";
 
 const DeleteGuestModal = forwardRef(
-    ({ guestToDelete, setGuestToDelete, guests, setGuests }, dialogRef) => {
+    ({ guestToDelete, setGuestToDelete }, dialogRef) => {
+        const { guests, setGuests } = useStore((state) => state);
         const [isLoading, setIsLoading] = useState(false);
 
         const handleCloseModal = useCallback(() => {
@@ -17,7 +19,7 @@ const DeleteGuestModal = forwardRef(
             setGuestToDelete(null);
             setIsLoading(false);
             handleCloseModal();
-        }, [guest]);
+        }, [guestToDelete]);
 
         return (
             <Modal

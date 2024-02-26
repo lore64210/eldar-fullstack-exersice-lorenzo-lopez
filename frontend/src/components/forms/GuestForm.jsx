@@ -11,16 +11,11 @@ import {
     SURNAME_PATTERN,
 } from "../../constants/constants";
 import { createGuest, updateGuest } from "../../service/guestService";
+import useStore from "../../store/store";
 
-const GuestForm = ({
-    guest,
-    setGuest,
-    setIsLoading,
-    handleCloseModal,
-    guests,
-    setGuests,
-}) => {
+const GuestForm = ({ guest, setGuest, setIsLoading, handleCloseModal }) => {
     const [backendError, setBackendError] = useState(null);
+    const { guests, setGuests } = useStore((state) => state);
 
     const {
         register,
