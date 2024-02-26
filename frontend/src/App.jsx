@@ -1,6 +1,6 @@
 import { useRef, useEffect, useCallback, useState } from "react";
-import { findAllGuests } from "./service/guestService";
-import { emptyGuest } from "./constants/constants";
+import { findAllGuests, inviteGuests } from "./service/guestService";
+import { STATUS, emptyGuest } from "./constants/constants";
 import GuestFormModal from "./components/modals/GuestFormModal";
 import Button from "./components/forms/Button";
 import "./styles/App.scss";
@@ -13,6 +13,7 @@ function App() {
     const [selectedGuest, setSelectedGuest] = useState(null);
     const [selectedGuestToDelete, setSelectedGuestToDelete] = useState(null);
     const [genericError, setGenericError] = useState(null);
+    const [inviteError, setInviteError] = useState(null);
     const [guests, setGuests] = useState([]);
 
     const dialogRef = useRef();
@@ -54,6 +55,26 @@ function App() {
         deleteDialogRef.current.showModal();
     };
 
+    const handleInviteConfirmedGuests = async () => {
+        try {
+            setIsLoading(true);
+            const confirmedGuestIds = guests
+                .filter((guest) => guest.status === STATUS.confirmed)
+                .map((guest) => guest.id);
+            await inviteGuests(confirmedGuestIds);
+            setGuests(
+                guests.map((g) =>
+                    confirmedGuestIds.includes(g.id)
+                        ? { ...g, status: STATUS.invited }
+                        : g
+                )
+            );
+        } catch (e) {
+            setInviteError(e.message);
+        }
+        setIsLoading(false);
+    };
+
     if (genericError) {
         return <h1 className="centered">{genericError}</h1>;
     }
@@ -61,13 +82,20 @@ function App() {
     return (
         <>
             {isLoading && <Loading />}
-            <h1 className="centered title">Mi lista de invitados {":D"}</h1>
+            <h1 className="centered title">Mi lista de invitados :D</h1>
             <Button
                 className="centered create-btn"
                 onClick={handleOpenCreateGuestModal}
             >
                 Agregar Invitado
             </Button>
+            <Button
+                className="centered invite-btn"
+                onClick={handleInviteConfirmedGuests}
+            >
+                Invitar a los confirmados
+            </Button>
+            {inviteError && <p className="error centered">{inviteError}</p>}
             <GuestLists
                 guests={guests}
                 setGuests={setGuests}

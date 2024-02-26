@@ -60,12 +60,18 @@ public class BirthdayGuestBuilder {
         return this;
     }
 
+    public BirthdayGuestBuilder withPosition(Integer value) {
+        this.guest.setPosition(value);
+        return this;
+    }
+
     private void setGenericValues() {
         this.guest.setName(RandomUtils.generateRandomString(10));
         this.guest.setSurname(RandomUtils.generateRandomString(10));
         this.guest.setEmail(RandomUtils.generateRandomString(5) + "@" + RandomUtils.generateRandomString(5) + ".com");
         this.guest.setStatus(GuestStatusEnum.POSSIBLE);
         this.guest.setPhoneNumber(Integer.toString(RandomUtils.generateRandomInteger(10000000, 99999999)));
+        this.guest.setPosition(1);
     }
 
 }

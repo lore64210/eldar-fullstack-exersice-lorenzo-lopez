@@ -7,6 +7,7 @@ import {
     EMAIL_PATTERN,
     NAME_PATTERN,
     PHONE_NUMBER_PATTERN,
+    STATUS,
     SURNAME_PATTERN,
 } from "../../constants/constants";
 import { createGuest, updateGuest } from "../../service/guestService";
@@ -64,7 +65,12 @@ const GuestForm = ({
                     )
                 );
             } else {
-                const newGuest = await createGuest(guest);
+                const newGuest = await createGuest({
+                    ...guest,
+                    position:
+                        guests.filter((g) => g.status === STATUS.possible)
+                            .length + 1,
+                });
                 setGuests([...guests, newGuest]);
             }
         } catch (e) {
@@ -139,9 +145,7 @@ const GuestForm = ({
                 pattern={PHONE_NUMBER_PATTERN}
             />
             <br />
-            {!!backendError && (
-                <p className="form-backend-error centered">{backendError}</p>
-            )}
+            {!!backendError && <p className="error centered">{backendError}</p>}
             <br />
             <Button className="form-submit-btn centered" isSubmit>
                 Guardar

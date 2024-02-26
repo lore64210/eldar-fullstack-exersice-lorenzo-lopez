@@ -36,6 +36,7 @@ public class GuestService {
 
     public void delete(Long id) {
         BirthdayGuest guest = this.findById(id);
+        this.updatePositionsAtDeletion(guest);
         guestRepository.delete(guest);
     }
 
@@ -48,11 +49,9 @@ public class GuestService {
     public BirthdayGuest update(BirthdayGuest guest) {
         this.validateGuest(guest);
         Assert.notNull(guest.getId(), this.getMessage("guest.id.null"));
-        if (guestRepository.existsById(guest.getId())) {
-            return guestRepository.save(guest);
-        } else {
-            throw new IllegalArgumentException(this.getMessage("guest.id.invalid"));
-        }
+        BirthdayGuest guestInDB = this.findById(guest.getId());
+        this.updatePositions(guest, guestInDB);
+        return guestRepository.save(guest);
     }
 
     public List<BirthdayGuest> updateMany(ConfirmedRequestVo confirmedRequestVo) {
@@ -74,6 +73,7 @@ public class GuestService {
         Assert.notNull(guest.getSurname(), this.getMessage("guest.surname.null"));
         Assert.notNull(guest.getPhoneNumber(), this.getMessage("guest.phone-number.null"));
         Assert.notNull(guest.getEmail(), this.getMessage("guest.email.null"));
+        Assert.notNull(guest.getPosition(), this.getMessage("guest.position.null"));
 
         Assert.isTrue(!guest.getName().isBlank(), this.getMessage("guest.name.null"));
         Assert.isTrue(!guest.getSurname().isBlank(), this.getMessage("guest.surname.null"));
@@ -84,10 +84,53 @@ public class GuestService {
         Assert.isTrue(ValidationUtils.stringIsOnlyCharacters(guest.getSurname()), this.getMessage("guest.surname.invalid"));
         Assert.isTrue(ValidationUtils.isValidEmail(guest.getEmail()), this.getMessage("guest.email.invalid"));
         Assert.isTrue(ValidationUtils.stringIsOnlyNumbers(guest.getPhoneNumber()), this.getMessage("guest.phone-number.invalid"));
+        Assert.isTrue(guest.getPosition() > 0, this.getMessage("guest.position.invalid"));
     }
     
     private String getMessage(String messageKey) {
         return messageSource.getMessage(messageKey, null, null);
+    }
+
+    private void updatePositions(BirthdayGuest updatedGuest, BirthdayGuest oldGuest) {
+        Integer newPosition = updatedGuest.getPosition();
+        Integer oldPosition = oldGuest.getPosition();
+
+        List<BirthdayGuest> guestsFromNewStatus = guestRepository.findAllByStatus(updatedGuest.getStatus());
+
+        guestsFromNewStatus.forEach(guest -> {
+            if (!guest.getId().equals(updatedGuest.getId()) && !newPosition.equals(oldPosition)) {
+                if (newPosition > oldPosition) {
+                    if (newPosition >= guest.getPosition() && oldPosition < guest.getPosition()) {
+                        guest.setPosition(guest.getPosition() - 1);
+                    }
+                } else {
+                    if (newPosition <= guest.getPosition() && oldPosition > guest.getPosition()) {
+                        guest.setPosition(guest.getPosition() + 1);
+                    }
+                }
+            }
+        });
+        guestRepository.saveAll(guestsFromNewStatus);
+
+        if (!updatedGuest.getStatus().equals(oldGuest.getStatus())) {
+            List<BirthdayGuest> guestsFromOldStatus = guestRepository.findAllByStatus(oldGuest.getStatus());
+            guestsFromOldStatus.forEach(guest -> {
+                if (newPosition <= guest.getPosition()) {
+                    guest.setPosition(guest.getPosition() + 1);
+                }
+            });
+            guestRepository.saveAll(guestsFromOldStatus);
+        }
+    }
+
+    private void updatePositionsAtDeletion(BirthdayGuest deletedGuest) {
+        List<BirthdayGuest> guests = guestRepository.findAllByStatus(deletedGuest.getStatus());
+        guests.forEach(guest -> {
+            if (!guest.getId().equals(deletedGuest.getId()) && deletedGuest.getPosition() >= guest.getPosition()) {
+                guest.setPosition(guest.getPosition() - 1);
+            }
+        });
+        guestRepository.saveAll(guests);
     }
 
 }

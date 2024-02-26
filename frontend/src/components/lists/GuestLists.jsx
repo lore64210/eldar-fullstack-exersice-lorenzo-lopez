@@ -3,6 +3,7 @@ import { STATUS } from "../../constants/constants";
 import StaticList from "./StaticList";
 import DynamicList from "./DynamicList";
 import { DragDropContext } from "react-beautiful-dnd";
+import { updateGuest } from "../../service/guestService";
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -12,6 +13,45 @@ const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
+const getOrderedGuestList = (guestList, status, orderKey = "position") => {
+    return guestList
+        .filter((guest) => guest.status === status)
+        .sort((a, b) => (a[orderKey] > b[orderKey] ? 1 : -1));
+};
+
+const updateGuestPositions = (guests, newGuest) => {
+    const previousGuest = guests.find((g) => g.id === newGuest.id);
+    const prevPosition = previousGuest.position;
+    const newPosition = newGuest.position;
+    console.log(newGuest, previousGuest);
+    return guests.map((g) => {
+        if (g.id === newGuest.id) {
+            return newGuest;
+        } else if (g.status !== newGuest.status) {
+            return g;
+        } else {
+            if (newGuest.status === previousGuest.status) {
+                if (newPosition > prevPosition) {
+                    if (
+                        newPosition >= g.position &&
+                        prevPosition < g.position
+                    ) {
+                        return { ...g, position: g.position - 1 };
+                    }
+                } else if (newPosition <= prevPosition) {
+                    if (
+                        newPosition <= g.position &&
+                        prevPosition > g.position
+                    ) {
+                        return { ...g, position: g.position + 1 };
+                    }
+                }
+            }
+        }
+        return g;
+    });
+};
+
 const GuestLists = ({
     guests,
     setGuests,
@@ -19,30 +59,32 @@ const GuestLists = ({
     handleOpenDeleteModal,
 }) => {
     const [lists, setLists] = useState({
-        [STATUS.possible]: guests.filter(
-            (guest) => guest.status === STATUS.possible
-        ),
-        [STATUS.confirmed]: guests.filter(
-            (guest) => guest.status === STATUS.confirmed
-        ),
-        [STATUS.invited]: guests.filter(
-            (guest) => guest.status === STATUS.invited
-        ),
+        [STATUS.possible]: getOrderedGuestList(guests, STATUS.possible),
+        [STATUS.confirmed]: getOrderedGuestList(guests, STATUS.confirmed),
+        [STATUS.invited]: getOrderedGuestList(guests, STATUS.invited, "name"),
     });
 
     useEffect(() => {
         setLists({
-            [STATUS.possible]: guests.filter(
-                (guest) => guest.status === STATUS.possible
-            ),
-            [STATUS.confirmed]: guests.filter(
-                (guest) => guest.status === STATUS.confirmed
-            ),
-            [STATUS.invited]: guests.filter(
-                (guest) => guest.status === STATUS.invited
+            [STATUS.possible]: getOrderedGuestList(guests, STATUS.possible),
+            [STATUS.confirmed]: getOrderedGuestList(guests, STATUS.confirmed),
+            [STATUS.invited]: getOrderedGuestList(
+                guests,
+                STATUS.invited,
+                "name"
             ),
         });
     }, [guests]);
+
+    const handleUpdateGuest = async (guest, status, position) => {
+        const newGuest = await updateGuest({
+            ...guest,
+            status,
+            position: position + 1, // por ser el indice del array tengo que sumarle 1
+        });
+
+        setGuests(updateGuestPositions(guests, newGuest));
+    };
 
     function onDragEnd(result) {
         const { source, destination } = result;
@@ -54,6 +96,8 @@ const GuestLists = ({
             if (destination.index === source.index) {
                 return;
             }
+
+            console.log(lists[source.droppableId][source.index]);
 
             const reorderedList = reorder(
                 lists[source.droppableId],
@@ -74,6 +118,8 @@ const GuestLists = ({
                 [destination.droppableId]: finishColumn,
             });
         }
+        const guest = lists[source.droppableId][source.index];
+        handleUpdateGuest(guest, destination.droppableId, destination.index);
     }
 
     return (
@@ -96,7 +142,7 @@ const GuestLists = ({
                     />
                 </DragDropContext>
             </div>
-            {!!lists?.invitedGuests?.length && (
+            {!!lists?.[STATUS.invited]?.length && (
                 <div className="centered">
                     <StaticList
                         title="Ya invitados!"

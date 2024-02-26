@@ -208,6 +208,32 @@ public class BirthdayGuestServiceTests extends FullstackExerciseLorenzoLopezAppl
     }
 
     @Test
+    public void create_withNullPosition_throwsException() {
+        BirthdayGuest guest = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withPosition(null)
+                .build();
+
+        Assertions.assertThatThrownBy(() -> guestService.create(guest))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(this.getMessage("guest.position.null"));
+    }
+
+    @Test
+    public void create_withInvalidPosition_throwsException() {
+        BirthdayGuest guest = BirthdayGuestBuilder
+                .getInstance()
+                .createGeneric()
+                .withPosition(-1)
+                .build();
+
+        Assertions.assertThatThrownBy(() -> guestService.create(guest))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(this.getMessage("guest.position.invalid"));
+    }
+
+    @Test
     public void update_withValidGuestData_createsGuestAndReturnsIt() {
         BirthdayGuest guest = BirthdayGuestBuilder
                 .getInstance()
